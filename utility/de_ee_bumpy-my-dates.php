@@ -1,3 +1,8 @@
+<?php
+/**
+ * Trying to Test EE4 but all of your example dates have expired ?Use this function to bump all of your event and ticket dates forward in time by 1 month.
+ */
+
 class EEBumpDatesForward {
 
 	/**
