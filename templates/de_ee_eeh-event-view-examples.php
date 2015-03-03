@@ -5,7 +5,8 @@
  * This template is just for testing various EEH_Event_View methods.  It is based on the Wordpress
  * Twenty Eleven theme as a page template.
  *
- * NOTE: You will need to change the
+ * NOTE: You will need to change the $event_id variable to the id of an event in your system you wish
+ * to view this template with.
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
