@@ -11,15 +11,15 @@
  *
  */
 function de_ee_tweak_event_list_exclude_ticket_expired_events_where( $SQL, WP_Query $wp_query ) {
-	if ( isset( $wp_query->query_vars['post_type'] ) && ( $wp_query->query_vars['post_type'] == 'espresso_events'  || ( is_array( $wp_query->query_vars['post_type'] ) && in_array( 'espresso_events', $wp_query->query_vars['post_type'] ) ) ) ) {
-		$SQL .= ' AND Ticket.TKT_end_date > "' . current_time( 'mysql', true ) . '"';
+	if ( isset( $wp_query->query_vars['post_type'] ) && ( $wp_query->query_vars['post_type'] == 'espresso_events'  || ( is_array( $wp_query->query_vars['post_type'] ) && in_array( 'espresso_events', $wp_query->query_vars['post_type'] ) ) ) && ! $wp_query->is_singular ) {
+		$SQL .= ' AND Ticket.TKT_end_date > "' . current_time( 'mysql', true ) . '" AND Ticket.TKT_deleted=0';
 	}
 	return $SQL;
 }
 add_filter( 'posts_where', 'de_ee_tweak_event_list_exclude_ticket_expired_events_where', 15, 2 );
 function de_ee_tweak_event_list_exclude_ticket_expired_events_join( $SQL, $wp_query ) {
-	if ( isset( $wp_query->query_vars['post_type'] ) && ( $wp_query->query_vars['post_type'] == 'espresso_events'  || ( is_array( $wp_query->query_vars['post_type'] ) && in_array( 'espresso_events', $wp_query->query_vars['post_type'] ) ) ) ) {
-		if ( ! $wp_query->is_espresso_event_archive && ! $wp_query->is_espresso_event_taxonomy && ! $wp_query->is_espresso_event_single ) {
+	if ( isset( $wp_query->query_vars['post_type'] ) && ( $wp_query->query_vars['post_type'] == 'espresso_events'  || ( is_array( $wp_query->query_vars['post_type'] ) && in_array( 'espresso_events', $wp_query->query_vars['post_type'] ) ) ) && ! $wp_query->is_singular ) {
+		if ( ! $wp_query->is_espresso_event_archive && ! $wp_query->is_espresso_event_taxonomy  ) {
 			$SQL .= ' INNER JOIN ' . EEM_Datetime::instance()->table() . ' ON ( ' . EEM_Event::instance()->table() . '.ID = ' . EEM_Datetime::instance()->table() . '.' . EEM_Event::instance()->primary_key_name() . ' ) ';
 		}
 		$SQL .= ' INNER JOIN ' . EEM_Datetime_Ticket::instance()->table() . ' AS Datetime_Ticket ON ( Datetime_Ticket.DTT_ID=' . EEM_Datetime::instance()->table() . '.' . EEM_Datetime::instance()->primary_key_name() . ' ) INNER JOIN ' . EEM_Ticket::instance()->table()  . ' AS Ticket ON ( Datetime_Ticket.TKT_ID=Ticket.' . EEM_Ticket::instance()->primary_key_name() . ' ) ';
