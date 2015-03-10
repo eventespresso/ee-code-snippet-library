@@ -1,3 +1,4 @@
+<?php
 /**
  * The purpose of this snippet is to filter the event archive (and event taxonomy archive) pages so that they exclude events
  * that have tickets no longer on sale.  This will also work whereever the `[ESPRESSO_EVENTS]` shortcode is used.
