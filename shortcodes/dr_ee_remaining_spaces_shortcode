@@ -1,0 +1,60 @@
+<?php
+// Do not include the above opening PHP bracket unless this is at the start of the file
+// The following function can be added to a themes functions.php file or a
+// site specific plugin (http://eventespresso.com/wiki/create-site-specific-plugin-wordpress-site/)
+// to call the shortcode use [show_capacity] in any EVENT (it won't work outside of an event post)
+
+// IMPORTANT
+//Dates are stored for datetimes in UTC. So if the datetime does not have the name, the name of the datetime 
+//displayed will not be correct for the site (unless the users site is in UTC+0). This isn't an issue if the datetimes have a name.
+//This only considers the limit on the datetime, NOT any quantity/limits that may exist on the actual tickets.
+
+/**
+*   Original code, props to Paul Burwell
+*   http://eventespresso.com/topic/help-showing-capacity/page/5/
+*   Updated and modified by Dean Robinson 10th March 2015
+**/
+
+function my_print_tickets_left_after_selector($atts) {
+    global $wpdb;
+
+    $EVT_ID = get_the_ID();
+
+    //display a title
+    $x = '<h4>Remaining spaces</h4>';
+    $x .= '<ul style="margin-left:0;">';
+
+        $sql = "SELECT * ";
+        $sql .= "FROM {$wpdb->prefix}esp_datetime ";
+        $sql .= "WHERE {$wpdb->prefix}esp_datetime.EVT_ID = %d";
+         
+        $datetimes = $wpdb->get_results( $wpdb->prepare( $sql, $EVT_ID ));
+         
+        $dt_frmt = get_option('date_format');
+
+        //echo "<pre>" . print_r($datetimes,1) . "</pre>";
+
+        foreach($datetimes as $datetime){
+            //display as a list
+            $x .= "<li>";
+            //if datetime name shown, display
+            $name = !empty($datetime->DTT_name) ? ($datetime->DTT_name) . ': ' : date($dt_frmt, strtotime($datetime->DTT_EVT_start) ) . ': ';
+            $x .= $name;
+
+            $limit = $datetime->DTT_reg_limit;
+            $sold = $datetime->DTT_sold;
+            $remainderp = $limit - $sold;
+            $remain = $limit == -1 ? '' : $remainderp;
+            if ( $limit == $sold ) :
+                $x .= '<strong>Sold Out</strong>';
+            else :
+                $x .= $remain;
+            endif;
+            $x .= "</li>";
+        }
+    $x .= '</ul>';
+ 
+    return $x;
+ 
+}
+add_shortcode('show_capacity','my_print_tickets_left_after_selector');
