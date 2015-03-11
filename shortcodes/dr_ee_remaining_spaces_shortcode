@@ -27,7 +27,7 @@ function my_print_tickets_left_after_selector($atts) {
          
         $dt_frmt = get_option('date_format');
 
-        echo "<pre>" . print_r($datetimes,1) . "</pre>";
+        //echo "<pre>" . print_r($datetimes,1) . "</pre>";
 
         foreach($datetimes as $datetime){
             //display as a list
