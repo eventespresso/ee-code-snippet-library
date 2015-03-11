@@ -4,6 +4,11 @@
 // site specific plugin (http://eventespresso.com/wiki/create-site-specific-plugin-wordpress-site/)
 // to call the shortcode use [show_capacity] in any EVENT (it won't work outside of an event post)
 
+// IMPORTANT
+//Dates are stored for datetimes in UTC. So if the datetime does not have the name, the name of the datetime 
+//displayed will not be correct for the site (unless the users site is in UTC+0). This isn't an issue if the datetimes have a name.
+//This only considers the limit on the datetime, NOT any quantity/limits that may exist on the actual tickets.
+
 /**
 *   Original code, props to Paul Burwell
 *   http://eventespresso.com/topic/help-showing-capacity/page/5/
