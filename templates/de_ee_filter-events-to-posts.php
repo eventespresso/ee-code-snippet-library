@@ -7,6 +7,10 @@
  */
 
 function de_ee_add_espresso_events_to_posts( $WP_Query ) {
+	//do not do this in the admin queries
+	if ( is_admin() ) {
+		return;
+	}
 	if ( $WP_Query instanceof WP_Query && ( $WP_Query->is_feed || $WP_Query->is_posts_page  || ( $WP_Query->is_home && ! $WP_Query->is_page ) ||  ( isset( $WP_Query->query_vars['post_type'] ) && ( $WP_Query->query_vars['post_type'] == 'post' || is_array( $WP_Query->query_vars['post_type'] ) && in_array( 'post', $WP_Query->query_vars['post_type'] ) ) ) ) ) {
 		//if post_types ARE present and 'post' is not in that array, then get out!
 		if ( isset( $WP_Query->query_vars['post_type'] ) && $post_types = (array) $WP_Query->query_vars['post_type'] ) {
