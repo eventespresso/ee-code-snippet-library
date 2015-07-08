@@ -11,12 +11,12 @@ function jf_ee_display_event_featured_image_on_spco(){
                     if ( $event instanceof EE_Event ) {
                         $events[ $event->ID() ] = $event;
                         $image = $event->feature_image( 'full' );
+                        echo $image;
                     }
                 }
             }   
         }
     }
-    echo $image;
 }
 
 add_action( 'AHEE__SPCO__before_registration_steps', 'jf_ee_display_event_featured_image_on_spco' );
