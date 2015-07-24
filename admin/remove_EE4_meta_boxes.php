@@ -31,7 +31,7 @@ add_action( 'add_meta_boxes', 'remove_em_all_venues', 20);
 
 function remove_em_all_events() {
   
-  // options, not remove!
+  // options, do not remove!
   // remove_meta_box( 'espresso_event_editor_event_options', 'espresso_events', 'side' );
 
   // categories
