@@ -76,11 +76,11 @@ add_action( 'AHEE__EE_System__core_loaded_and_ready', 'bc_ee_determine_whether_t
  */
 function bc_ee_print_at_home_fee_surcharge_details() {
 	return array(
-		'name'        		=> 'printing fee',
-		'code'        		=> 'print-at-home-fee',
+		'name'        	=> 'printing fee',
+		'code'        	=> 'print-at-home-fee',
 		'description' 	=> 'postal fee for shipping tickets',
 		'unit_price'  	=> 1.00,
-		'taxable'     		=> false,
+		'taxable'     	=> false,
 	);
 }
 
@@ -92,11 +92,11 @@ function bc_ee_print_at_home_fee_surcharge_details() {
  */
 function bc_ee_ticket_shipping_fee_surcharge_details() {
 	return array(
-		'name'        		=> 'shipping fee',
-		'code'        		=> 'ticket-shipping-fee',
+		'name'        	=> 'shipping fee',
+		'code'        	=> 'ticket-shipping-fee',
 		'description' 	=> 'postal fee for shipping tickets',
 		'unit_price'  	=> 2.50,
-		'taxable'     		=> false,
+		'taxable'     	=> false,
 	);
 }
 
