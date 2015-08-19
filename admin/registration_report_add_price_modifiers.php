@@ -2,7 +2,7 @@
 /**
  * Use this filter with EE4.6-4.7 to add another column onto the registration CSV report
  * that shows the price modifiers for each registration's ticket purchased.
- * If you want to use with 4.8+ and have it account for promotions and transaction-wide surcgarges/discountds, please open a new ticket on this repo
+ * This does not apply to 4.8+ which means it will not include promotions and transaction-wide surcharges/discounts.
  */
 
 add_filter( 'FHEE__EE_Export__report_registrations__reg_csv_array', 'espresso_add_ticket_base_price', 10, 2);
