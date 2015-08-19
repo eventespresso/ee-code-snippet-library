@@ -3,16 +3,14 @@
  * The purpose of this snippet is to filter the event archive (and event taxonomy archive) pages so that they exclude events
  * that have tickets no longer on sale.
  *
- *  NOTE: The query for the ticket expiry time is correct at time of posting, but at some point in the future there will be a
- *  change to how date queries are done with Event Espresso and this snippet will be out of date then.  Watch for blog posts
- *  about datetime changes.
+ *  NOTE: This query is only valid for Event Espresso 4.8+
  *
  * To Implement this code, add it to the bottom of your themes functions.php file, or add it to a site specific plugin.
  *
  */
 function de_ee_tweak_event_list_exclude_ticket_expired_events_where( $SQL, WP_Query $wp_query ) {
 	if ( isset( $wp_query->query_vars['post_type'] ) && ( $wp_query->query_vars['post_type'] == 'espresso_events'  || ( is_array( $wp_query->query_vars['post_type'] ) && in_array( 'espresso_events', $wp_query->query_vars['post_type'] ) ) ) && ! $wp_query->is_singular ) {
-		$SQL .= ' AND Ticket.TKT_end_date > "' . current_time( 'mysql', true ) . '" AND Ticket.TKT_deleted=0';
+		$SQL .= ' AND Ticket.TKT_end_date > "' . time() . '" AND Ticket.TKT_deleted=0';
 	}
 	return $SQL;
 }
