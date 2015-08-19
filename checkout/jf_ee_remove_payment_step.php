@@ -1,7 +1,6 @@
 <?php
 
-function jf_ee_remove_payment_step() {
-	$reg_steps = EE_Registry::instance()->CFG->registration->reg_steps;
+function jf_ee_remove_payment_step( $reg_steps ) {
 	if ( empty( $reg_steps )) {
 		$reg_steps = array(
 			10 => array(
