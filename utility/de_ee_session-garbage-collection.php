@@ -1,3 +1,4 @@
+<?php
 //you could add this as a callback on a wp_cron schedule, or somewhere else.
 public function de_ee_transient_garbage_collection() {
 		global $wpdb;

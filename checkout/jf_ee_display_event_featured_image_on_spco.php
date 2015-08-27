@@ -1,6 +1,7 @@
 <?php
 
 function jf_ee_display_event_featured_image_on_spco(){
+    $image = ''; // optionally set a default featured image here if desired
     $checkout = EE_Registry::instance()->SSN->checkout();
     if ( $checkout instanceof EE_Checkout ) {
         $transaction = $checkout->transaction;

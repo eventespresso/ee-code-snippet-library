@@ -12,9 +12,9 @@
 
 function tw_ee_remove_wp_user_meta_on_cap() {
 
-	if ( !current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 	 	remove_meta_box( 'eea_wp_user_integration', 'espresso_events', 'side' );
 	}
 		
 }
-add_action('do_meta_boxes', 'tw_ee_remove_wp_user_meta_on_cap');
+add_action( 'do_meta_boxes', 'tw_ee_remove_wp_user_meta_on_cap' );
