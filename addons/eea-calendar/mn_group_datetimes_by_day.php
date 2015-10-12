@@ -3,6 +3,7 @@
 //so that if there are multiple datetimes for a single event on the same day, only one
 //will appear in the calendar. Week and day views are unaffected
 //see https://events.codebasehq.com/projects/event-espresso/tickets/8864
+//*** requires a server running PHP 5.5 or higher ***
 add_filter( 'FHEE__EED_Espresso_Calendar__get_calendar_events__query_params', 'ee_calendar_group_by_day', 10, 7 );
 function ee_calendar_group_by_day( $query_params, 
         $category_id_or_slug,
