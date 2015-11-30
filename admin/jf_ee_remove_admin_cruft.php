@@ -1,6 +1,6 @@
 <?php
 /**
- * You can use these functions to remove the admin footer text,
+ * You can use some or all of these functions to remove the admin footer text,
  * the Event Espresso news widget,
  * the redirect to the Welcome screen after an update,
  * the about page menu item,
