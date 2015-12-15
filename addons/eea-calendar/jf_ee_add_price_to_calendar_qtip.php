@@ -2,6 +2,7 @@
 //* Please do NOT include the opening php tag, except of course if you're starting with a blank file
 
 /* grabs the datetime's first ticket's price and displays it in the Calendar tooltip */
+/* add this code to your site and activate Display Attendee Limits option in the Calendar's Advanced Settings tab */
 
 function jf_ee_add_price_to_calendar_qtip( $text, $datetime ) {
     $text = $datetime->total_tickets_available_at_this_datetime();
