@@ -1,6 +1,11 @@
 <?php
 /* 
  * Modifies the WP User Integration add-on for EE4 to create a new user account for each attendee within a transaction
+ * FAQ's 
+ * Q: What if the person doing the registration is logged in? 
+ * A: New user accounts will be created for additional registrations **only**.
+ * Q: What happens if there is already a user account matching the email address for one of the registrations? 
+ * A: By default, it will not allow the registration to proceed and they will be prompted to use a different email address or log in.
  */
 
 add_action( 'AHEE__EE_System__load_espresso_addons', 'jf_ee_wpuser_for_attendee_set_hooks', 11 );
@@ -32,7 +37,7 @@ function jf_ee_process_wpuser_for_attendee( EE_SPCO_Reg_Step_Attendee_Informatio
 
             //if user logged in, then let's just use that user.  Otherwise we'll attempt to get a
             //user via the attendee info.
-            if ( is_user_logged_in() ) {
+            if ( is_user_logged_in() && $registration->is_primary_registrant() ) {
                 $user = get_userdata( get_current_user_id() );
             } else {
                 //is there already a user for the given attendee?
