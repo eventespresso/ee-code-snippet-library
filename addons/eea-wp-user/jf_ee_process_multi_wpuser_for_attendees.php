@@ -10,12 +10,14 @@
 
 add_action( 'AHEE__EE_System__load_espresso_addons', 'jf_ee_wpuser_for_attendee_set_hooks', 11 );
 
-function jf_ee_wpuser_for_attendee_set_hooks() {
-    remove_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', array( 'EED_WP_Users_SPCO', 'process_wpuser_for_attendee' ), 11 );
-    add_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', 'jf_ee_process_wpuser_for_attendee', 10, 2 );
+function plugin_ee_wpuser_for_attendee_set_hooks() {
+    if ( ! is_admin() ) {
+        remove_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', array( 'EED_WP_Users_SPCO', 'process_wpuser_for_attendee' ), 11 );
+        add_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', 'plugin_ee_process_wpuser_for_attendee', 10, 2 );
+    }
     if ( EE_FRONT_AJAX ) {
         remove_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', array( 'EED_WP_Users_SPCO', 'process_wpuser_for_attendee' ), 11 );
-        add_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', 'jf_ee_process_wpuser_for_attendee', 10, 2 );
+        add_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', 'plugin_ee_process_wpuser_for_attendee', 10, 2 );
     }
 }
 
