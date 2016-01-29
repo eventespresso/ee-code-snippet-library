@@ -2,7 +2,8 @@
 
 /**
  * Changes the event's default value for displaying the ticket selector.
- * Any model's fields' default values can be changed using similar code snippets
+ * Any model's fields' default values can be changed using similar code snippets.
+ * Only works with EE 4.8.28 or higher
  * @param mixed $default_value
  * @param EE_Model_Field_Base $field_obj
  */
