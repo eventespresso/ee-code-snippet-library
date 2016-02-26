@@ -12,7 +12,7 @@ function jf_ee_set_capability_default_user_create_role_event_editor( $array ) {
     global $post;
     $array['default_user_create_role'] = new EE_Select_Input(
         array( 
-        	's2member_level2' => 's2Member Level 2',
+            's2member_level2' => 's2Member Level 2',
             's2member_level1' => 's2Member Level 1',
             'subscriber' => 'Subscriber',
             // add more roles here;
