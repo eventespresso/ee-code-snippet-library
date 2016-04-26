@@ -2,16 +2,15 @@
 /**
  * PLEASE READ AND FOLLOW ALL INSTRUCTIONS IN CAPS
  *
- * THIS SNIPPET CURRENTLY REQUIRES CORE BRANCH FET-6593-txn-surcharge
- *
  * IN ORDER FOR THIS TO WORK YOU NEED TO ADD A CUSTOM QUESTION
  * BY LOGGING INTO THE WORDPRESS 	ADMIN AND GOING TO :
  *        Event Espresso > Registration Form
  * AND THEN CLICKING ON "Add New Question"
  * FOR THIS EXAMPLE CODE I CREATED A QUESTION NAMED "Ticket Printing"
- * SET IT'S TYPE TO "Dropdown" AND GAVE IT THE FOLLOWING TWO OPTIONS:
+ * SET ITS TYPE TO "Dropdown" AND GAVE IT THE FOLLOWING TWO OPTIONS:
  * 		"you print tickets at home"
  * 		"we print and ship tickets"
+ * (THE ANSWER VALUES ARE CASE SENSITIVE)
  * THEN SET THE QUESTION TO REQUIRED
  *
  * BECAUSE THIS QUESTION SHOULD ONLY BE ASKED ONCE PER TRANSACTION
@@ -41,7 +40,7 @@ function bc_ee_determine_whether_to_apply_surcharge() {
 				foreach ( $registrations as $QST_ID => $response ) {
 					if ( $QST_ID === $surcharge_QST_ID ) {
 						switch ( $response ) {
-							// CHANGE THESE TO MATCH THE ANSWER OPTIONS FOR YOUR QUESTION
+							// CHANGE THESE TO EXACTLY MATCH THE ANSWER OPTIONS FOR YOUR QUESTION
 							// THEN EDIT / ADD / DELETE THE FUNCTIONS BELOW
 							// WHOSE NAMES MATCH THESE OPTIONS
 							// YOU CAN ADD NEW OPTIONS, JUST MAKE SURE TO HAVE A CORRESPONDING
@@ -76,9 +75,9 @@ add_action( 'AHEE__EE_System__core_loaded_and_ready', 'bc_ee_determine_whether_t
  */
 function bc_ee_print_at_home_fee_surcharge_details() {
 	return array(
-		'name'        	=> 'printing fee',
+		'name'        	=> 'transaction fee',
 		'code'        	=> 'print-at-home-fee',
-		'description' 	=> 'postal fee for shipping tickets',
+		'description' 	=> 'convenience fee for online tickets',
 		'unit_price'  	=> 1.00,
 		'taxable'     	=> false,
 	);
