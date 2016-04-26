@@ -109,7 +109,12 @@ function jf_ee_process_wpuser_for_attendee( EE_SPCO_Reg_Step_Attendee_Informatio
 
             //failsafe just in case this is a logged in user not created by this system that has never had an attendee record.
             $att_id = empty( $att_id ) ? get_user_option( 'EE_Attendee_ID', $user->ID ) : $att_id;
-            if ( empty( $att_id ) && EED_WP_Users_SPCO::_can_attach_user_to_attendee( $attendee, $user ) ) {
+            if ( empty( $att_id ) && (EE_Registry::instance()->CFG->addons->user_integration->sync_user_with_contact
+            || (
+                $attendee->fname() === $user->first_name
+                && $attendee->lname() === $user->last_name
+                && $attendee->email() === $user->user_email
+            ) ) ) {
                 update_user_option( $user->ID, 'EE_Attendee_ID', $attendee->ID() );
             }
         } //end registrations loop
