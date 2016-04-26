@@ -172,6 +172,7 @@ function bc_ee_apply_transaction_surcharge( EE_Checkout $checkout ) {
 			'LIN_code'       => $surcharge_details[ 'code' ],
 		) )
 	);
+	$grand_total->recalculate_total_including_taxes();
 	return $checkout;
 }
 add_filter( 'FHEE__EED_Single_Page_Checkout___initialize_checkout__checkout', 'bc_ee_apply_transaction_surcharge' );
