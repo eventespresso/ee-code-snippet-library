@@ -2,16 +2,15 @@
 /**
  * PLEASE READ AND FOLLOW ALL INSTRUCTIONS IN CAPS
  *
- * THIS SNIPPET CURRENTLY REQUIRES CORE BRANCH FET-6593-txn-surcharge
- *
  * IN ORDER FOR THIS TO WORK YOU NEED TO ADD A CUSTOM QUESTION
  * BY LOGGING INTO THE WORDPRESS 	ADMIN AND GOING TO :
  *        Event Espresso > Registration Form
  * AND THEN CLICKING ON "Add New Question"
  * FOR THIS EXAMPLE CODE I CREATED A QUESTION NAMED "Ticket Printing"
- * SET IT'S TYPE TO "Dropdown" AND GAVE IT THE FOLLOWING TWO OPTIONS:
+ * SET ITS TYPE TO "Dropdown" AND GAVE IT THE FOLLOWING TWO OPTIONS:
  * 		"you print tickets at home"
  * 		"we print and ship tickets"
+ * (THE ANSWER VALUES ARE CASE SENSITIVE)
  * THEN SET THE QUESTION TO REQUIRED
  *
  * BECAUSE THIS QUESTION SHOULD ONLY BE ASKED ONCE PER TRANSACTION
@@ -39,9 +38,9 @@ function bc_ee_determine_whether_to_apply_surcharge() {
 		foreach ( $_REQUEST[ 'ee_reg_qstn' ] as $registrations ) {
 			if ( ! empty( $registrations ) ) {
 				foreach ( $registrations as $QST_ID => $response ) {
-					if ( $QST_ID == $surcharge_QST_ID ) {
+					if ( $QST_ID === $surcharge_QST_ID ) {
 						switch ( $response ) {
-							// CHANGE THESE TO MATCH THE ANSWER OPTIONS FOR YOUR QUESTION
+							// CHANGE THESE TO EXACTLY MATCH THE ANSWER OPTIONS FOR YOUR QUESTION
 							// THEN EDIT / ADD / DELETE THE FUNCTIONS BELOW
 							// WHOSE NAMES MATCH THESE OPTIONS
 							// YOU CAN ADD NEW OPTIONS, JUST MAKE SURE TO HAVE A CORRESPONDING
@@ -76,9 +75,9 @@ add_action( 'AHEE__EE_System__core_loaded_and_ready', 'bc_ee_determine_whether_t
  */
 function bc_ee_print_at_home_fee_surcharge_details() {
 	return array(
-		'name'        	=> 'printing fee',
+		'name'        	=> 'transaction fee',
 		'code'        	=> 'print-at-home-fee',
-		'description' 	=> 'postal fee for shipping tickets',
+		'description' 	=> 'convenience fee for online tickets',
 		'unit_price'  	=> 1.00,
 		'taxable'     	=> false,
 	);
@@ -152,22 +151,16 @@ function bc_ee_apply_transaction_surcharge( EE_Checkout $checkout ) {
 		return $checkout;
 	}
 	EE_Registry::instance()->load_helper( 'Line_Item' );
-	$ticket_printing_subtotal = EE_Line_Item::new_instance( array(
-		'LIN_code' => 'ticket-printing-fees',
-		'LIN_name' => __( 'Ticket Printing Fees', 'event_espresso' ),
-		'LIN_type' => EEM_Line_Item::type_sub_total,
-		'TXN_ID'   => $checkout->transaction->ID()
-	) );
-	$grand_total->add_child_line_item( $ticket_printing_subtotal );
-	$ticket_printing_subtotal->add_child_line_item(
+	$pre_tax_subtotal = EEH_Line_Item::get_pre_tax_subtotal( $grand_total );
+	$pre_tax_subtotal->add_child_line_item(
 		EE_Line_Item::new_instance( array(
 			'LIN_name'       => $surcharge_details[ 'name' ],
 			'LIN_desc'       => $surcharge_details[ 'description' ],
-			'LIN_unit_price' => floatval( $surcharge_details[ 'unit_price' ] ),
+			'LIN_unit_price' => (float) $surcharge_details[ 'unit_price' ],
 			'LIN_quantity'   => 1,
 			'LIN_is_taxable' => $surcharge_details[ 'taxable' ],
 			'LIN_order'      => 0,
-			'LIN_total'      => floatval( $surcharge_details[ 'unit_price' ] ),
+			'LIN_total'      => (float) $surcharge_details[ 'unit_price' ],
 			'LIN_type'       => EEM_Line_Item::type_line_item,
 			'LIN_code'       => $surcharge_details[ 'code' ],
 		) )

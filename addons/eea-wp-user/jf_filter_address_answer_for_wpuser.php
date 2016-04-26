@@ -26,6 +26,7 @@ function jf_filter_address_answer_for_wpuser( $value, EE_Registration $registrat
             $state = EEM_Attendee::system_question_state;
             $country = EEM_Attendee::system_question_country;
             $zip = EEM_Attendee::system_question_zip;
+            $phone = EEM_Attendee::system_question_phone;
             $id_to_use = $system_id;
         } 
         if ( $current_user instanceof WP_User && 
@@ -48,6 +49,9 @@ function jf_filter_address_answer_for_wpuser( $value, EE_Registration $registrat
                     break;
                 case $zip :
                     $value = $attendee->get( 'ATT_zip' );
+                    break;
+                case $phone :
+                    $value = $attendee->get( 'ATT_phone' );
                     break;
                 default:
             }
