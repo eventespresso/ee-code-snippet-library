@@ -1,0 +1,23 @@
+ /**
+ * Here is a patch to bring Visual Composer into Event Espresso 4.
+ *
+ * Tested on Visual Composer 4.11 and Event Espresso 4.
+ *
+ * Instructions:
+ * 1) Add this to the end of functions.php or any is_admin() included file.
+ **/
+ 
+add_action('admin_print_scripts', function() {
+        global $vc_manager;
+        if (!array_key_exists('page', $_REQUEST)) {
+                return;
+        }
+        if (!preg_match('#^espresso_.*#is', $_REQUEST['page'])) {
+                return;
+        }
+        if (!isset($vc_manager) || !$vc_manager) {
+                return;
+        }
+        $e = &$vc_manager->backendEditor();
+        call_user_func(array(&$e, 'printScriptsMessages'));
+});
