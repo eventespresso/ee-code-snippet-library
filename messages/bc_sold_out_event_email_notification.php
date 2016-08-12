@@ -15,6 +15,7 @@ defined('ABSPATH') || exit;
 function bc_sold_out_event_email_notification(\EE_Event $event)
 {
     global $wpdb;
+    $headers = array('Content-Type: text/html; charset=UTF-8');
     $datetimes = $wpdb->get_results(
         $wpdb->prepare(
             "SELECT
@@ -107,7 +108,8 @@ function bc_sold_out_event_email_notification(\EE_Event $event)
             EE_Config::instance()->organization->email
         ),
         $subject_title,
-        $msg
+        $msg,
+        $headers
     );
 }
 add_action('AHEE__EE_Event__set_status__to_sold_out', 'bc_sold_out_event_email_notification');
