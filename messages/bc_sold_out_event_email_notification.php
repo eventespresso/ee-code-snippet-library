@@ -15,7 +15,6 @@ defined('ABSPATH') || exit;
 function bc_sold_out_event_email_notification(\EE_Event $event)
 {
     global $wpdb;
-    $headers = array('Content-Type: text/html; charset=UTF-8');
     $datetimes = $wpdb->get_results(
         $wpdb->prepare(
             "SELECT
@@ -36,8 +35,8 @@ function bc_sold_out_event_email_notification(\EE_Event $event)
                        AND r.STS_ID = 'RAP'
                        
                 WHERE  d.DTT_EVT_end > NOW()
-                  AND d.DTT_reg_limit != -1                    
-                  AND r.EVT_ID = %d                    
+                  AND r.EVT_ID = %d
+                                   
                 GROUP BY d.DTT_ID
                 ORDER BY d.DTT_ID ASC",
             $event->ID()
@@ -67,8 +66,10 @@ function bc_sold_out_event_email_notification(\EE_Event $event)
     foreach ($datetimes as $datetime) {
         if (
             isset($datetime->Datetime_Reg_Limit, $datetime->Approved_Registrations_Count)
-            && $datetime->Datetime_Reg_Limit <= $datetime->Approved_Registrations_Count
         ) {
+            $datetime->Datetime_Reg_Limit = $datetime->Datetime_Reg_Limit !== -1
+                ? $datetime->Datetime_Reg_Limit
+                : esc_html__('No Limit', 'event_espresso');
             $datetime_reg_count_info .= "
             <td style=\"padding:3px 6px; text-align: center; border-right:1px solid #eeeeee; border-bottom:1px solid #eeeeee;\">{$datetime->Datetime_ID}</td>
             <td style=\"padding:3px 6px; border-right:1px solid #eeeeee; border-bottom:1px solid #eeeeee;\">{$datetime->Datetime_Name}</td>
@@ -80,6 +81,10 @@ function bc_sold_out_event_email_notification(\EE_Event $event)
     </tbody>
 </table>
 ";
+	$recipient = apply_filters(
+		'AFEE__EES_Espresso_Thank_You__check_for_sold_out_events__sold_out_event_email_recipient',
+		EE_Config::instance()->organization->email
+	);
     $subject_title = apply_filters(
         'AFEE__EES_Espresso_Thank_You__check_for_sold_out_events__sold_out_event_email_subject',
         esc_html__('Sold Out Event Notification', 'event_espresso')
@@ -102,15 +107,12 @@ function bc_sold_out_event_email_notification(\EE_Event $event)
         $event,
         $datetimes
     );
-    wp_mail(
-        apply_filters(
-            'AFEE__EES_Espresso_Thank_You__check_for_sold_out_events__sold_out_event_email_recipient',
-            EE_Config::instance()->organization->email
-        ),
-        $subject_title,
-        $msg,
-        $headers
-    );
+	$headers = apply_filters(
+		'AFEE__EES_Espresso_Thank_You__check_for_sold_out_events__sold_out_event_email_headers',
+		array( 'Content-Type: text/html; charset=UTF-8' )
+	);
+	// all together now
+	wp_mail( $recipient, $subject_title, $msg, $headers );
 }
 add_action('AHEE__EE_Event__set_status__to_sold_out', 'bc_sold_out_event_email_notification');
 
