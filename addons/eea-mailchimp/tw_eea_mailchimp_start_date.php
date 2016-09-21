@@ -21,7 +21,7 @@ function tw_eea_mailchimp_start_date( $subscribe_args, $registration, $EVT_ID ) 
 		$datetime = reset($datetimes);
 
 		//Add the 'EVENTDATE' merge var and use the datetimes start_date for the value.
-		$merge_vars['EVENTDATE'] = $datetime->start_date( 'd/m/Y' );
+		$merge_vars['EVENTDATE'] = $datetime->start_date( 'Y-m-d' );
 
 		//Add the merge vars back into the subscriptions args.
 		$subscribe_args['merge_vars'] = $merge_vars;
