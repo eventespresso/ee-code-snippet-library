@@ -2,10 +2,14 @@
 /*
 Usage: Create a password protected post or page
 Add the Ticket Selector shortcode for your event to the page
-Then use that post ID for $VIP_Post_ID
-Then use your ticket ID for $VIP_Ticket_ID;
+Then use that post ID for $VIP_Post_IDs
+(You can have multiple different pages, separate each ID with a comma)
+Then use your ticket ID for $VIP_Ticket_IDs;
+(Again separate each ID with a comma within the array)
 The VIP ticket is not displayed on all posts except the password protected VIP post
 Non-VIP tickets are not displayed on VIP post
+This is a modified version of https://github.com/eventespresso/ee-code-snippet-library/blob/master/templates/jf_ee_password_protect_ticket.php
+This version allows you to set multiple page and ticket ID's to use.
 */
 function tw_espresso_vip_tickets( $ticket_row_html, EE_Ticket $ticket ) {
     global $post;
