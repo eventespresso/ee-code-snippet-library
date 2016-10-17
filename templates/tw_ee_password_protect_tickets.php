@@ -16,7 +16,7 @@ function tw_espresso_vip_tickets( $ticket_row_html, EE_Ticket $ticket ) {
 
     // Array of password protected posts or pages
     $VIP_Post_IDs = array(
-    	14,
+    	14, 20
     );
     
     //Array of ticket IDs for the restricted access tickets
@@ -27,7 +27,7 @@ function tw_espresso_vip_tickets( $ticket_row_html, EE_Ticket $ticket ) {
     );
 
     //Check if the current post ID is within 'VIP_Post_IDs', if so you on a protected page that should display the ticket that have ID's matching those set within $VIP_Ticket_ID's
-    if ( $post instanceof WP_Post && ( ( $post->ID != $VIP_Post_IDs && in_array( $ticket->ID(), $VIP_Ticket_IDs ) ) || ( $post->ID == $VIP_Post_IDs && ! in_array( $ticket->ID(), $VIP_Ticket_IDs ) ) ) ) {
+    if ( $post instanceof WP_Post && ( ( !in_array( $post->ID,  $VIP_Post_IDs ) && in_array( $ticket->ID(), $VIP_Ticket_IDs ) ) || ( in_array( $post->ID, $VIP_Post_IDs ) && ! in_array( $ticket->ID(), $VIP_Ticket_IDs ) ) ) ) {
         return '';
     }
     return $ticket_row_html;
