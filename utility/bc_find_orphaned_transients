@@ -1,0 +1,21 @@
+# Find Orphaned Transients
+# WordPress transients normally are saved as pairs,
+# where one record contains the transient data
+# and another contains a timestamp defining when the transient expires.
+# Sometimes, somehow, transients can have their corresponding timeout record deleted
+# which orphans the main record.
+# The following query will find all main transient records
+# that do NOT have a corresponding timeout record.
+# PLZ NOTE:
+# you may need to update the WordPress table prefix
+# from "wp_" to whatever is used in your database
+
+SELECT o1.*
+FROM wp_options o1
+WHERE o1.option_name LIKE '_transient_%'
+      AND o1.option_name NOT LIKE '_transient_timeout_%'
+      AND NOT EXISTS(
+    SELECT REPLACE(o2.option_name, '_timeout', '')
+    FROM wp_options o2
+    WHERE o2.option_name = CONCAT('_transient_timeout_', REPLACE(o1.option_name, '_transient_', ''))
+)

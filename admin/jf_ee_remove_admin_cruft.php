@@ -16,11 +16,22 @@ function jf_ee_remove_menu_cruft() {
 }
 
 // stop redirect to about page after update
-add_action( 'init', 'jf_ee_remove_about_ee_redirect', 4 );
-function jf_ee_remove_about_ee_redirect() {
-    if ( class_exists( 'EE_System' )){
-        $system = EE_System::instance();
-        remove_action( 'AHEE__EE_System__load_CPTs_and_session__start', array( $system, 'redirect_to_about_ee' ), 9 );  
+add_action( 'init', 'ee_remove_about_ee_redirect', 4 );
+function ee_remove_about_ee_redirect() {
+    global $pagenow;
+
+    if (
+        ! in_array(
+            $pagenow,
+            array( 'wp-login.php', 'wp-register.php' )
+        )
+        && class_exists( 'EE_System' )
+    ) {
+        remove_action(
+            'AHEE__EE_System__initialize_last',
+            array( EE_System::instance(), 'redirect_to_about_ee' ),
+            9
+        );
     }
 }
 
