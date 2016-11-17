@@ -1,0 +1,21 @@
+/**
+* Here is a patch to bring Visual Composer into Event Espresso 4.
+* Tested on Visual Composer 4.11 and Event Espresso 4.
+* Not the best method as it overrides core VC code.  Long term solution coming soon.
+*
+* Instructions:
+* 1) Enable Events within Visual Composer's Role Manager for any user who should have accses.
+* 2) Navigate to your js_composer directory via your favorite editor.
+* 3) Edit include/classes/editors/class-vc-backend-editor.php
+* 4) Insert the following code within the method "addHookSettings", recommended at line 69
+**/
+
+add_action('admin_print_scripts', function() {
+        if (!array_key_exists('page', $_REQUEST)) {
+                return;
+        }
+        if (!preg_match('#^espresso_.*#is', $_REQUEST['page'])) {
+                return;
+        }
+        call_user_func(array(&$this, 'printScriptsMessages'));
+});
