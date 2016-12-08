@@ -14,7 +14,7 @@ function bc_add_cart_modifier( EE_SPCO_Reg_Step $payment_options_reg_step ) {
 	$payment_methods_with_surcharges = array( 'invoice' );
 	// get what the user selected for payment method
 	$selected_method_of_payment = $payment_options_reg_step->checkout->selected_method_of_payment;
-	if ( ! in_array( $selected_method_of_payment, $payment_methods_with_surcharges ) ) {
+	if ( ! in_array( $selected_method_of_payment, $payment_methods_with_surcharges, true ) ) {
 		// does not require surcharge
 		return;
 	}
@@ -28,29 +28,44 @@ function bc_add_cart_modifier( EE_SPCO_Reg_Step $payment_options_reg_step ) {
 		// ERROR
 		return;
 	}
-	EE_Registry::instance()->load_helper( 'Line_Item' );
-	$success = EEH_Line_Item::add_percentage_based_item(
-		$total_line_item,
-		$cart_modifier_name,
-		$cart_modifier_amount,
-		$cart_modifier_description,
-		$cart_modifier_taxable
-	);
-	if ( $success ) {
-		$new_total   = $total_line_item->total();
-		$transaction = $payment_options_reg_step->checkout->transaction;
-		if ( $transaction instanceof EE_Transaction ) {
-			$transaction->set_total( $new_total );
-			$success = $transaction->save();
-			if ( $success ) {
-				/** @type EE_Registration_Processor $registration_processor */
-				$registration_processor = EE_Registry::instance()->load_class( 'Registration_Processor' );
-				$registration_processor->update_registration_final_prices( $transaction );
-			}
-		}
-	}
+    $transaction = $payment_options_reg_step->checkout->transaction;
+    if ( ! $transaction instanceof EE_Transaction) {
+        // ERROR
+        return;
+    }
+    //delete existing in case page is refreshed or something
+    EEM_Line_Item::instance()->delete(
+        array(
+            array(
+                'TXN_ID'   => $transaction->ID(),
+                'LIN_name' => $cart_modifier_name,
+            )
+        )
+    );
+    $surcharge_line_item_id = EEH_Line_Item::add_percentage_based_item(
+        $total_line_item,
+        $cart_modifier_name,
+        $cart_modifier_amount,
+        $cart_modifier_description,
+        $cart_modifier_taxable
+    );
+    if ($surcharge_line_item_id) {
+        $surcharge_line_item = EEM_Line_Item::instance()->get_one_by_ID($surcharge_line_item_id);
+        if ($surcharge_line_item instanceof EE_Line_Item) {
+            // add surcharge amount to amount owing
+            $payment_options_reg_step->checkout->amount_owing += $surcharge_line_item->total();
+            $new_total = $total_line_item->total();
+            $transaction->set_total($new_total);
+            $success = $transaction->save();
+            if ($success) {
+                /** @type EE_Registration_Processor $registration_processor */
+                $registration_processor = EE_Registry::instance()->load_class('Registration_Processor');
+                $registration_processor->update_registration_final_prices($transaction);
+            }
+        }
+    }
 }
-add_action( "AHEE__Single_Page_Checkout__before_payment_options__process_reg_step", 'bc_add_cart_modifier', 10, 1 );
+add_action( 'AHEE__Single_Page_Checkout__before_payment_options__process_reg_step', 'bc_add_cart_modifier', 10, 1 );
 
 
 
