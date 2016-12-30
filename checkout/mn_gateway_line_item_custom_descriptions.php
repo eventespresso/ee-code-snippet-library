@@ -23,5 +23,20 @@ function mn_customize_line_item_desc_add_attendee_info( $item_description, EE_Ga
     foreach( $attendees as $attendee ) {
         $attendee_names[ $attendee->ID() ] = $attendee->full_name();
     }
-    return sprintf( esc_html__('For event "%1$s (ID %2$s)", attendee(s):%3$s', 'event_espresso'), $ticket->get_event_name(), implode(', ', $attendee_names ) );
+
+    $item_description = sprintf(
+        esc_html(
+            _n(
+                'For event %1$s (ID %2$s), attendee:%3$s',
+                'For event %1$s (ID %2$s), attendees:%3$s',
+                count( $attendee_names ),
+                'event_espresso'
+            )
+        ),
+        $ticket->get_event_name(),
+        $ticket->get_event_ID(),
+        implode(', ', $attendee_names )
+    );
+    return $item_description;
 }
+
