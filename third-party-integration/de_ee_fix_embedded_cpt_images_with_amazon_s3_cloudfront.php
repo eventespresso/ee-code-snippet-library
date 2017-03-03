@@ -10,14 +10,14 @@
  
  add_action( 'aws_init, 'de_ee_fix_content_filters_for_as3cf', 15);
  function de_ee_fix_content_filters_for_as3cf() {
-    //add and remove the_content filters at later priority so as3cf is filtering urls
-		global $as3cf;
-		if (! isset($as3cf->filter_local) || ! $as3cf->filter_local instanceof AS3CF_Local_To_S3) {
-			return;
-		}
-		
-		remove_filter('the_content', array($as3cf->filter_local, 'filter_post'), 100);
-		remove_filter('the_excerpt', array($as3cf->filter_local, 'filter_post'), 100);
-		add_filter('the_content', array($as3cf->filter_local, 'filter_post'), 140);
-		add_filter('the_excerpt', array($as3cf->filter_local, 'filter_post'), 140);
+    	//add and remove the_content filters at later priority so as3cf is filtering urls
+	global $as3cf;
+	if (! isset($as3cf->filter_local) || ! $as3cf->filter_local instanceof AS3CF_Local_To_S3) {
+		return;
+	}
+
+	remove_filter('the_content', array($as3cf->filter_local, 'filter_post'), 100);
+	remove_filter('the_excerpt', array($as3cf->filter_local, 'filter_post'), 100);
+	add_filter('the_content', array($as3cf->filter_local, 'filter_post'), 140);
+	add_filter('the_excerpt', array($as3cf->filter_local, 'filter_post'), 140);
  }
