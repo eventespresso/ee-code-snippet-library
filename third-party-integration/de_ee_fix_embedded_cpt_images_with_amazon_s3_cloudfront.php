@@ -4,7 +4,7 @@
  * `uploads` directory, you'll notice that any embedded EE cpt content in other content (i.e. Venue information embedded with 
  * the Event Description) won't show any images that might be in the content field for that cpt.  This is because the AS3CF 
  * plugin filters `the_content` too early for catching EE content embedded this way.
- * This code snippet helps will fix that.  Just add this to a site-specific plugin (recommended) or in your theme's 
+ * This code snippet will fix that.  Just add this to a site-specific plugin (recommended) or in your theme's 
  * `functions.php` file.
  */
  
