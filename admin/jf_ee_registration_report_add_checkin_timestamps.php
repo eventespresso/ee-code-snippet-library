@@ -20,9 +20,20 @@ function espresso_add_checkin_timestamp_csv_report( array $csv_row, $reg_db_row 
         )
     );
     $checkins_for_csv_col = array();
+    $datetime_checkins_for_csv_col = array();
     foreach ( $checkin_rows as $checkin_row ) {
         $checkins_for_csv_col[] = $checkin_row['Checkin.CHK_timestamp'];
+        $checkin_for_dtt_id = $checkin_row['Checkin.DTT_ID'];
+        $checkin_for_dtt_name = \EEM_Datetime::instance()->get_var(
+            array(
+                array('DTT_ID' => $checkin_for_dtt_id)
+            ),
+        'DTT_name');
+        $datetime_checkins_for_csv_col[] = $checkin_for_dtt_name ?
+            $checkin_for_dtt_name . ' - ID ' . $checkin_for_dtt_id :
+            $checkin_for_dtt_id;
     }
     $csv_row[ (string)__( 'Checkin timestamps', 'event_espresso' ) ] = implode( ' + ', $checkins_for_csv_col );
+    $csv_row[ (string)__( 'Checked in for Datetime', 'event_espresso' ) ] = implode( ' + ', $datetime_checkins_for_csv_col );
     return $csv_row;
 }
