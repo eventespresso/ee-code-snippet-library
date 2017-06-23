@@ -12,6 +12,7 @@ function ee_modify_visibility_of_event_people_cpt( $cpt_registry_array ) {
         $cpt_registry_array['espresso_people']['args']['show_ui'] = true;
         $cpt_registry_array['espresso_people']['args']['show_in_menu'] = true;
         $cpt_registry_array['espresso_people']['args']['hierarchical'] = true;
+        $cpt_registry_array['espresso_people']['args']['capabilities']['create_posts'] = 'do_not_allow';
     }
     return $cpt_registry_array;
 }
