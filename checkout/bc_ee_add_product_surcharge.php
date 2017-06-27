@@ -90,14 +90,20 @@ $products = array(
     // ADD ADDITIONAL PRODUCTS HERE
 );
 
+// THE FOLLOWING CAN BE COMMENTED OUT AND THEN ADDED ANYWHERE IN YOUR SYSTEM CODE (ASSUMING THIS FILE IS LOADED)
+// AS LONG AS IT IS CALLED >> BEFORE << THE WORDPRESS "pre_get_posts" HOOK AT PRIORITY 10
+// THIS MEANS THAT THE ARRAY OF PRODUCTS CAN BE GENERATED DYNAMICALLY USING PRODUCT DATA FROM ANOTHER CART.
+// TO UPDATE THE SYSTEM AFTER A PRODUCT IS SOLD, YOU CAN HOOK INTO THE FOLLOWING FILTER:
+//      "AHEE__bc_ee_add_product_surcharge__add_product__product_added"
+// WHICH IS FOUND IN THE `bc_ee_add_product_surcharge::add_product()` METHOD
+new bc_ee_add_product_surcharge($products);
+
+
 
 /*
 * !!! STOP EDITING !!!
 * DON'T GO ANY FURTHER UNLESS YOU ARE REALLY CONFIDENT THAT YOU KNOW WHAT YOU ARE DOING.
 */
-
-
-new bc_ee_add_product_surcharge($products);
 
 
 /**
@@ -139,7 +145,7 @@ class bc_ee_add_product_surcharge
      *
      * @param array $products
      */
-    public function __construct(array $products)
+    public function __construct($products = array())
     {
         $this->products = $products;
         add_filter(
@@ -149,6 +155,19 @@ class bc_ee_add_product_surcharge
         add_action(
             'AHEE__Single_Page_Checkout__after_attendee_information__process_reg_step',
             array($this, 'add_products')
+        );
+    }
+
+
+
+    /**
+     * @return array
+     */
+    public function products()
+    {
+        return (array)apply_filters(
+            'FHEE__bc_ee_add_product_surcharge__products',
+            $this->products
         );
     }
 
@@ -166,7 +185,7 @@ class bc_ee_add_product_surcharge
             foreach ($request_params['ee_reg_qstn'] as $registrations) {
                 if (! empty($registrations)) {
                     foreach ($registrations as $QST_ID => $response) {
-                        foreach ($this->products as $product) {
+                        foreach ($this->products() as $product) {
                             if ($product['product_question_id'] === $QST_ID) {
                                 // we found a product, so toggle the following filter switch to trigger processing
                                 add_filter(
@@ -280,7 +299,7 @@ class bc_ee_add_product_surcharge
      */
     private function get_product($product_id, $option)
     {
-        foreach ($this->products as $product) {
+        foreach ($this->products() as $product) {
             if ($product['product_question_id'] === $product_id && isset($product['product_option_details'][$option])) {
                 $product_details = $product['product_option_details'][$option];
                 $product_details['product_question_id'] = $product['product_question_id'];
@@ -304,6 +323,7 @@ class bc_ee_add_product_surcharge
      */
     private function add_product(array $product, $product_qty = 0, EE_Registration $registration)
     {
+        $product['code'] .= '-' . $registration->reg_code();
         $product['description'] = sprintf(
             esc_html_x(
                 'for %1$s.',
@@ -312,14 +332,23 @@ class bc_ee_add_product_surcharge
             ),
             $registration->attendee()->full_name()
         ) . ' ' . $product['description'];
-        return $this->add_line_item(
-            $product['code'] . '-' . $registration->reg_code(),
+        $product_added = $this->add_line_item(
+            $product['code'],
             $product['name'],
             $product['description'],
             $product['unit_price'],
             $product['taxable'],
             $product_qty
         );
+        if($product_added) {
+            do_action(
+                'AHEE__bc_ee_add_product_surcharge__add_product__product_added',
+                $product,
+                $product_qty,
+                $registration
+            );
+        }
+        return $product_added;
     }
 
 
