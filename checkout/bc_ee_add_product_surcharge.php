@@ -243,7 +243,7 @@ class bc_ee_add_product_surcharge
                 }
             }
             if ($product !== null && $product_qty !== null) {
-                $product_added = $this->add_product($_SERVER, __LINE__, $registration)
+                $product_added = $this->add_product($product, $product_qty, $registration)
                     ? true // toggle to true
                     : $product_added; // or maintain existing value
             }
