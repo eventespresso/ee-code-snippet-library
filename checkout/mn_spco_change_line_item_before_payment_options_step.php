@@ -1,3 +1,4 @@
+<?php
 //changes the first line item's unit price to 10, from whatever it was before
 //this will be displayed during SPCO's payment options step
 
