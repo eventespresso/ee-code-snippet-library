@@ -48,7 +48,7 @@ class EE_Event_Category_Widget extends WP_Widget {
             <form id="category-select" class="category-select" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
         
                 <?php
-                $args = array(
+                $ddargs = array(
                     'show_option_none' => __( 'Select event category' ),
                     'value_field'      => 'slug',
                     'show_count'       => 0,
@@ -59,7 +59,7 @@ class EE_Event_Category_Widget extends WP_Widget {
                 );
                 ?>
         
-                <?php $select  = wp_dropdown_categories( $args ); ?>
+                <?php $select  = wp_dropdown_categories( $ddargs ); ?>
                 <?php $replace = "<select$1 onchange='return this.form.submit()'>"; ?>
                 <?php $select  = preg_replace( '#<select([^>]*)>#', $replace, $select ); ?>
         
