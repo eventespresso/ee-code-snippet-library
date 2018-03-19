@@ -45,25 +45,27 @@ class EE_Event_Category_Widget extends WP_Widget {
         }
         ?>
         <li style="list-style: none" id="event-categories">
-            <form id="category-select" class="category-select" action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
+            <form id="category-select" class="category-select" action="<?php echo esc_url(get_post_type_archive_link('events')); ?>" method="get">
         
                 <?php
                 $ddargs = array(
-                    'show_option_none' => __( 'Select event category' ),
+                    'option_none_value'=> '',
+                    'show_option_none' => __( 'See all events' ),
+                    'show_option_all'  => __( 'Select event category' ),
                     'value_field'      => 'slug',
                     'show_count'       => 0,
                     'taxonomy'         => 'espresso_event_categories',
-                    'orderby'          => 'name',
                     'name'             => 'espresso_event_categories',
                     'echo'             => 0,
                 );
+
+        
+                $select  = wp_dropdown_categories( $ddargs ); 
+                $replace = "<select$1 onchange='return this.form.submit()'>";
+                $select  = preg_replace( '#<select([^>]*)>#', $replace, $select ); 
+        
+                echo $select; 
                 ?>
-        
-                <?php $select  = wp_dropdown_categories( $ddargs ); ?>
-                <?php $replace = "<select$1 onchange='return this.form.submit()'>"; ?>
-                <?php $select  = preg_replace( '#<select([^>]*)>#', $replace, $select ); ?>
-        
-                <?php echo $select; ?>
         
                 <noscript>
                     <input type="submit" value="View" />
