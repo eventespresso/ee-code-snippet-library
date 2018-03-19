@@ -45,7 +45,7 @@ class EE_Event_Category_Widget extends WP_Widget {
         }
         ?>
         <li style="list-style: none" id="event-categories">
-            <form id="category-select" class="category-select" action="<?php echo esc_url(get_post_type_archive_link('events')); ?>" method="get">
+            <form id="category-select" class="category-select" action="<?php echo esc_url(get_post_type_archive_link('espresso_events')); ?>" method="get">
         
                 <?php
                 $ddargs = array(
