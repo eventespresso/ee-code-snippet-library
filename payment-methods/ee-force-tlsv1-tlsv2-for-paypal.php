@@ -3,7 +3,7 @@
  * Add the following snippet to your theme's functions.php file or ideally in a site-specific plugin.
  * This only affects paypal related payment methods, you can make it site wide by just removing the paypal url condition
  */
-ee_force_tls_for_curl($handle, $r, $url) {
+function ee_force_tls_for_curl($handle, $r, $url) {
     if (! $handle ) {
       return;
     }
