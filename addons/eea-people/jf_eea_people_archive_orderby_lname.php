@@ -6,7 +6,7 @@ add_filter( 'posts_orderby', 'jf_eea_people_archive_orderby' );
 function jf_eea_people_archive_orderby( $orderby ) {
     global $wpdb;
     if( is_post_type_archive( 'espresso_people' ) || is_tax( 'espresso_people_categories' )) {
-        $orderby = "{$wpdb->prefix}esp_attendee_meta.ATT_lname ASC";
+        $orderby = "eam.ATT_lname ASC";
         return $orderby;
     }
     // not a people archive, return default order by
