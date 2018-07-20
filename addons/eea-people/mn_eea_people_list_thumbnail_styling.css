@@ -1,0 +1,29 @@
+/**
+ * These styles improve the display of people involved in an event
+ * see https://github.com/eventespresso/eea-people-addon/issues/14 for details.
+ * Add these styles to your theme's style.css file and then people with thumbnail pictures will be laid out better
+ */
+ul.eea-people-addon-people-list-ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul.eea-people-addon-people-list-ul li{
+    clear:none !important;
+    vertical-align:top;
+    display:inline-block;
+    text-align:center;
+    height:150px;
+}
+div.eea-people-addon-feature-image{
+    float:none !important;
+    margin: 0 !important;
+}
+div.eea-people-addon-feature-image img{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+a.eea-people-addon-link-to-person{
+    display:inline-block;
+}
