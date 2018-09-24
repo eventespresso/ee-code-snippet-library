@@ -1,7 +1,7 @@
 # EE Code Snippet Library
 This is a community-maintained repository of code snippets that help modify the default behaviour of [Event Espresso](http://eventespresso.com). This takes inspiration from the community library [Easy Digital Downloads](https://easydigitaldownloads.com/) has.  Much of the guidelines and organizational structure is also copied from Easy Digital Downloads because it's so awesome!
 
-All snippets are organized into categories represented by folders and each snippet is placed in its own file with a name that describes what it does. We've also listed all of the snippets in a searchable spreadsheet:https://docs.google.com/spreadsheets/d/1-rkQrFaf_76yQ0OWGMVDS_u3uv78KPir6GFKhoYaLhI/
+All snippets are organized into categories represented by folders and each snippet is placed in its own file with a name that describes what it does. We've also listed all of the snippets in a searchable spreadsheet: https://docs.google.com/spreadsheets/d/1-rkQrFaf_76yQ0OWGMVDS_u3uv78KPir6GFKhoYaLhI/
 
 # Submitting Your Snippet
 Anyone is welcome and encouraged to submit their code snippets.  To do so, please [Fork](https://github.com/eventespresso/ee-code-snippet-library/fork) the repository and then create a [pull request](https://github.com/eventespresso/ee-code-snippet-library/compare/).
