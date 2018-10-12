@@ -13,7 +13,7 @@ function mn_use_quotes_around_phone_numbers_in_reg_reports($csv_row, $db_row)
     return $csv_row;
 }
 add_filter(
-    'FHEE__EE_Export__report_registrations__reg_csv_array',
+    'FHEE__EventEspressoBatchRequest__JobHandlers__RegistrationsReport__reg_csv_array',
     'mn_use_quotes_around_phone_numbers_in_reg_reports',
     10,
     2

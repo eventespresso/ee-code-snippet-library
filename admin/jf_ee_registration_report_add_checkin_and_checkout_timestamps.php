@@ -6,7 +6,7 @@
  * that show checkin & checkout timestamps for each registration.
  */
 
-add_filter( 'FHEE__EE_Export__report_registrations__reg_csv_array', 
+add_filter( 'FHEE__EventEspressoBatchRequest__JobHandlers__RegistrationsReport__reg_csv_array',
     'espresso_add_checkin__checkout_timestamp_csv_report', 
     10, 
     2
