@@ -7,7 +7,7 @@ function tw_ee_add_phone_to_waitlist_form($form_options, $event, $tickets, $wait
     // First check if the form_options has a 'hidden_inputs' sub-section that we can use
     if( $form_options['subsections']['hidden_inputs'] instanceof EE_Form_Section_Proper ) {
         // Sanity check just incase the registration_phone field has already been set (by core code for example).
-        if( empty($form_options['subsections']['hidden_inputs']['registrant_phone']) ) {
+        if( ! $form_options['subsections']['hidden_inputs']->has_subsection('registrant_phone') ) {
             // Build out the new registration_phone text input using the same format as the other fields.
             $registration_phone = array('registrant_phone' => new EE_Text_Input(
                 array(
