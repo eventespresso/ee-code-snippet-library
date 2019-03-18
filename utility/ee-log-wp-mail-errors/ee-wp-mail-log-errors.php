@@ -1,8 +1,5 @@
-<?php
-/*
-Plugin Name: EE Debug functions
-Description: This plugin is just used to hold functions used during debugging and will be removed shortly.
-*/
+<?php //Please do not include the opening PHP tag if you already have one.
+
 // write_log function, writes to debug.log
 if (! function_exists('write_log')) {
     function write_log($log)

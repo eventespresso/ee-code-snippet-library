@@ -19,3 +19,7 @@ See https://eventespresso.com/wiki/troubleshooting-checklist/#wpdebug
 You add that code above the `/* That's all, stop editing! Happy blogging. */` comment in the above file ([example](https://monosnap.com/file/eGdAz5tOSjacoQ9h5BiQieCGAUhiN8)), usually you can find this code: `define( 'WP_DEBUG', false );` somewhere in the file, replace that with the snippet above.
 
 That will tell WordPress to log any errors/notices/warnings to `/wp-content/debug.log` so then the code in this plugin write to that file.
+
+Once you have added the above, add the code in `ee-wp-mail-log-errors.php` to a custom fucntions plugin, we have some documentatio on creating one here:
+
+https://eventespresso.com/wiki/create-site-specific-plugin-wordpress-site/ 
