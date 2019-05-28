@@ -7,7 +7,7 @@
  */
 
 function tw_ee_force_unique_emails_for_registrations(
-	    $stop_processing,
+        $stop_processing,
         $att_nmbr,
         EE_Registration $spco_registration,
         $registrations,
@@ -40,20 +40,20 @@ function tw_ee_force_unique_emails_for_registrations(
                 if (
                     ! empty($form_inputs['email'])
                 ) {
-                	//If any email addresses have already been added to the $email_addresses array
-                	//check that the current email does not match any of those addresses
+                    //If any email addresses have already been added to the $email_addresses array
+                    //check that the current email does not match any of those addresses
                     if(! empty($email_addresses) ) {
-                    	if( in_array(strtolower($form_inputs['email']), $email_addresses) ) {
-                    		//$email_addresses already contains the current registrations email address so this is a dupe.
-                    		//Add a notice to SPCO and stop processing.
+                        if( in_array(strtolower($form_inputs['email']), $email_addresses) ) {
+                            //$email_addresses already contains the current registrations email address so this is a dupe.
+                            //Add a notice to SPCO and stop processing.
 
-                            //== Change the text below to a more suitable error mesage if prreferrec ==
-                    		$user_notice = '<p>Each registration must have a unique email address</p>';
-                    		$stop_processing = true;
-                    	}
+                            //== Change the text below to a more suitable error mesage if preferred ==
+                            $user_notice = '<p>Each registration must have a unique email address</p>';
+                            $stop_processing = true;
+                        }
                     }
                     //Add the email address to the array using lower case
-					$email_addresses[] = strtolower($form_inputs['email']);
+                    $email_addresses[] = strtolower($form_inputs['email']);
                 }
             }
         }
@@ -62,7 +62,7 @@ function tw_ee_force_unique_emails_for_registrations(
     if ($stop_processing) {
         EE_Error::add_error($user_notice, __FILE__, __FUNCTION__, __LINE__);
     }
-	return $stop_processing;
+    return $stop_processing;
 }
 
 add_filter('FHEE__EE_SPCO_Reg_Step_Attendee_Information___process_registrations__pre_registration_process', 'tw_ee_force_unique_emails_for_registrations', 10, 6);
