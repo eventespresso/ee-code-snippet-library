@@ -4,9 +4,9 @@ function tw_ee_espresso_reg_report_filter_columns_ordered( $csv_row, $registrati
 
     //Set the allowed fields here and also set them in the order you want them to be displayed within the CSV
     $allowed_fields_in_order = array(
-        __( 'Last Name', 'event_espresso' ) . '[ATT_lname]',
-        __( 'First Name', 'event_espresso' ) . '[ATT_fname]',
-        __( 'Email Address', 'event_espresso' ) . '[ATT_email]',
+        __( 'Last Name', 'event_espresso' ),
+        __( 'First Name', 'event_espresso' ),
+        __( 'Email Address', 'event_espresso' ),
     );
 
     //Flip the array so the values are now the keys.
@@ -28,4 +28,4 @@ function tw_ee_espresso_reg_report_filter_columns_ordered( $csv_row, $registrati
 
     return $filtered_csv_row;
 }
-add_filter( 'FHEE__EE_Export__report_registrations__reg_csv_array', 'tw_ee_espresso_reg_report_filter_columns_ordered', 10, 2);
+add_filter( 'FHEE__EventEspressoBatchRequest__JobHandlers__RegistrationsReport__reg_csv_array', 'tw_ee_espresso_reg_report_filter_columns_ordered', 10, 2);

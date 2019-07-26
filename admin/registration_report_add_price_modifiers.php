@@ -5,7 +5,7 @@
  * This does not apply to 4.8+ which means it will not include promotions and transaction-wide surcharges/discounts.
  */
 
-add_filter( 'FHEE__EE_Export__report_registrations__reg_csv_array', 'espresso_add_ticket_base_price', 10, 2);
+add_filter( 'FHEE__EventEspressoBatchRequest__JobHandlers__RegistrationsReport__reg_csv_array', 'espresso_add_ticket_base_price', 10, 2);
 function espresso_add_ticket_base_price( $reg_csv_array, $reg_row ) {
 
 	//want the line item that's a child of this registration's ticket's line item

@@ -9,4 +9,4 @@ function tw_ee_replace_newlines_for_spaces_in_export($reg_csv_array, $reg_row) {
 	}
 	return $reg_csv_array;
 }
-add_filter( 'FHEE__EE_Export__report_registrations__reg_csv_array', 'tw_ee_replace_newlines_for_spaces_in_export', 100, 2 );
+add_filter( 'FHEE__EventEspressoBatchRequest__JobHandlers__RegistrationsReport__reg_csv_array', 'tw_ee_replace_newlines_for_spaces_in_export', 100, 2 );
