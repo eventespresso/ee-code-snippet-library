@@ -1,13 +1,15 @@
 <?php
 
-// This function can be used to populate the additional registrants questions using the primary registrant on the Registration CSV report.
-// For example if you collect 'Parent Information' on the primary registrant only and then only child names for additional registrants, this snippet uses the parents info for all on the CSV.
+/*
+ * This function can be used to populate empty additional registrant's questions using the answers proivded byt the primary registrant in the Registration CSV report.
+ * For example if you collect 'Parent Information' on the primary registrant only and then only child names for additional registrants,
+ * this snippet uses the Primary registrants parent info answers additional registration in the group  on the CSV.
+ */
 
 add_filter('FHEE__EventEspressoBatchRequest__JobHandlers__RegistrationsReport__reg_csv_array', 'tw_ee_populate_additional_registrants_questions_using_primary_reg', 20, 2);
-function tw_ee_populate_additional_registrants_questions_using_primary_reg($reg_csv_array, $reg_row) {
-    
-    if( $reg_row['Registration.REG_group_size'] > 1 && $reg_row['Registration.REG_count'] !== 1 )  {
-
+function tw_ee_populate_additional_registrants_questions_using_primary_reg($reg_csv_array, $reg_row)
+{
+    if ($reg_row['Registration.REG_group_size'] > 1 && $reg_row['Registration.REG_count'] !== 1) {
         // Pull the primary registrant object.
         $primary_registration = EEM_Registration::instance()->get_one(
             array(
@@ -17,13 +19,11 @@ function tw_ee_populate_additional_registrants_questions_using_primary_reg($reg_
                 ),
             )
         );
-        
         // Pull the primary registrant asnwers.
         $answers = \EEM_Answer::instance()->get_all_wpdb_results(array(
             array('REG_ID' => $primary_registration->ID()),
             'force_join' => array('Question'),
         ));
-        
         // Now fill out the questions the primary registrant answers but the registrant has not.
         foreach ($answers as $answer_row) {
             if ($answer_row['Question.QST_ID']) {
@@ -37,7 +37,7 @@ function tw_ee_populate_additional_registrants_questions_using_primary_reg($reg_
             }
 
             // If a value has already been set in the CSV, leave it alone.
-            if(!empty($reg_csv_array[ $question_label ])) {
+            if (!empty($reg_csv_array[ $question_label ])) {
                 continue;
             }
 

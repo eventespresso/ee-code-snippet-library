@@ -1,4 +1,6 @@
 <?php
+// Please do NOT include the opening php tag, except of course if you're starting with a blank file
+
 /**
  * Some CSV-reading programs interpret phone numbers as large numbers, and so show them using scientific notation.
  * This prevents that by putting phone numbers in quotes for both the registration report and attendee report.
@@ -8,8 +10,8 @@ function mn_use_quotes_around_phone_numbers_in_reg_reports($csv_row, $db_row)
 {
     $attendee_phone_field = EEM_Attendee::instance()->field_settings_for('ATT_phone');
     $attendee_phone_column_name =\EEH_Export::get_column_name_for_field($attendee_phone_field);
-    $phone_num = $csv_row[$attendee_phone_column_name];
-    $csv_row[$attendee_phone_column_name] = empty($phone_num) ? '' : '"' . $phone_num . '"';
+    $phone_num = $csv_row[ $attendee_phone_column_name ];
+    $csv_row[ $attendee_phone_column_name ] = empty($phone_num) ? '' : '"' . $phone_num . '"';
     return $csv_row;
 }
 add_filter(
@@ -23,8 +25,8 @@ function mn_use_quotes_around_phone_numbers_in_attendee_reports($csv_row, $db_ro
 {
     $attendee_phone_field = EEM_Attendee::instance()->field_settings_for('ATT_phone');
     $attendee_phone_column_name = $attendee_phone_field->get_nicename();
-    $phone_num = $csv_row[$attendee_phone_column_name];
-    $csv_row[$attendee_phone_column_name] = empty($phone_num) ? '' : '"' . $phone_num . '"';
+    $phone_num = $csv_row[ $attendee_phone_column_name ];
+    $csv_row[ $attendee_phone_column_name ] = empty($phone_num) ? '' : '"' . $phone_num . '"';
     return $csv_row;
 }
 add_filter(
