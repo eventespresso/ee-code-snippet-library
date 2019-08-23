@@ -12,7 +12,7 @@ add_filter(
 
 function jf_ee_transactions_search_add_promotions(
     array $params,
-    $request,
+    array $request,
     $view,
     $count
 ) {
