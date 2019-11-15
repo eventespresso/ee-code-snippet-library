@@ -19,6 +19,7 @@ function tw_ee_populate_additional_registrants_questions_using_primary_reg($reg_
                 ),
             )
         );
+
         // Pull the primary registrant asnwers.
         $answers = \EEM_Answer::instance()->get_all_wpdb_results(array(
             array('REG_ID' => $primary_registration->ID()),
@@ -35,12 +36,10 @@ function tw_ee_populate_additional_registrants_questions_using_primary_reg($reg_
             } else {
                 $question_label = sprintf(__('Question $s', 'event_espresso'), $answer_row['Answer.QST_ID']);
             }
-
             // If a value has already been set in the CSV, leave it alone.
             if (!empty($reg_csv_array[ $question_label ])) {
                 continue;
             }
-
             if (isset($answer_row['Question.QST_type'])
                 && $answer_row['Question.QST_type'] == \EEM_Question::QST_type_state
             ) {
@@ -56,6 +55,40 @@ function tw_ee_populate_additional_registrants_questions_using_primary_reg($reg_
                         $answer_row['Answer.ANS_value']
                     )
                 );
+            }
+        }
+
+        // Pull the primary attendee
+        $primary_attendee = $primary_registration->attendee();
+        
+        // Which primary attendee fields are including:
+        $att_fields_to_include = array(
+            'ATT_address',
+            'ATT_address2',
+            'ATT_city',
+            'STA_ID',
+            'CNT_ISO',
+            'ATT_zip',
+            'ATT_phone',
+        );
+
+        // add attendee columns
+        foreach ($att_fields_to_include as $att_field_name) {
+            $field_obj = EEM_Attendee::instance()->field_settings_for($att_field_name);
+            $column_name = EEH_Export::get_column_name_for_field($field_obj);
+            if (empty($reg_csv_array[ $column_name ])) {
+                if ($att_field_name == 'STA_ID') {
+                    $value = $primary_attendee->state_name();
+                } elseif ($att_field_name == 'CNT_ISO') {
+                    $value = $primary_attendee->country_name();
+                } else {
+                    $value = EEH_Export::prepare_value_from_db_for_display(
+                        EEM_Attendee::instance(),
+                        $att_field_name,
+                        $primary_attendee->get($att_field_name)
+                    );
+                }
+                $reg_csv_array[ $column_name ] = $value;
             }
         }
     }
