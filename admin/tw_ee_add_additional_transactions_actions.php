@@ -5,7 +5,7 @@
  */
 
 add_filter('FHEE__Transactions_Admin_Page__getActionButtons__actions', 'tw_ee_add_additional_transactions_actions', 2, 10);
-function tw_add_additional_transactions_actions($actions, $transaction)
+function tw_ee_add_additional_transactions_actions($actions, $transaction)
 {
     // Pull the primary registrant from the transaction.
     $registration = $transaction->primary_registration();
