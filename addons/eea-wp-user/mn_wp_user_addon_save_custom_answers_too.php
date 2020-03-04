@@ -6,7 +6,10 @@
 add_filter('FHEE__EE_SPCO_Reg_Step_Attendee_Information___generate_question_input__input_constructor_args', 'my_question_input', 10, 4);
 function my_question_input( $input_args, EE_Registration $registration = null, EE_Question $question = null, EE_Answer $answer = null ) {
 	if( class_exists( 'EED_WP_Users_SPCO' ) ) {
-        if(is_admin()){
+        if(is_admin() || filter_var(
+            EE_Registry::instance()->REQ->get('revisit', false),
+            FILTER_VALIDATE_BOOLEAN
+        )){
             return $input_args;
         }
 		global $current_user;
