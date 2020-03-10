@@ -9,4 +9,4 @@ function tw_ee_calendar_tooltip_reg_now_btn_str_replace($tooltip_reg_btn_html, $
 
 	return $tooltip_reg_btn_html;
 }
-add_filter('FHEE__EE_Calendar__get_calendar_events__tooltip_reg_btn_html', 'tw_ee_calendar_tooltip_reg_now_btn', 10, 3);
+add_filter('FHEE__EE_Calendar__get_calendar_events__tooltip_reg_btn_html', 'tw_ee_calendar_tooltip_reg_now_btn_str_replace', 10, 3);
