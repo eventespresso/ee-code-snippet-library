@@ -7,7 +7,7 @@
 function tw_calendar_datetime_end_equal_start($calendar_datetime, $datetime) {
 
     //Only change the event end date to match the event start date if the event it longer then 7 days
-    if ( $datetime->length('days', true) > 7 ) {
+    if ( $datetime->length('days', true) >= 7 ) {
         //Grab the current start_date
         $start_date = $datetime->start_date('F j, Y');
         //Set the end date to match the start date on the calendar datetime
