@@ -15,7 +15,7 @@ function jf_ee_wpuser_for_attendee_set_hooks() {
         remove_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', array( 'EED_WP_Users_SPCO', 'process_wpuser_for_attendee' ), 11 );
         add_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', 'jf_ee_process_wpuser_for_attendee', 10, 2 );
     }
-    if ( EE_FRONT_AJAX ) {
+    if (defined('EE_FRONT_AJAX') && EE_FRONT_AJAX) {
         remove_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', array( 'EED_WP_Users_SPCO', 'process_wpuser_for_attendee' ), 11 );
         add_action( 'AHEE__EE_Single_Page_Checkout__process_attendee_information__end', 'jf_ee_process_wpuser_for_attendee', 10, 2 );
     }
