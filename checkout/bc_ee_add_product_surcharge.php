@@ -230,6 +230,8 @@ class bc_ee_add_product_surcharge
             $product_qty_question_id = null;
             $answers = $registration->answers();
             foreach ($answers as $answer) {
+            	$product_qty = null;
+                $product = null;
                 if ($answer instanceof EE_Answer) {
                     if ($product === null) {
                         $product = $this->get_product($answer->question_ID(), $answer->value());
@@ -241,12 +243,13 @@ class bc_ee_add_product_surcharge
                         $product_qty = $answer->value();
                     }
                 }
-            }
-            if ($product !== null && $product_qty !== null) {
+                if ($product !== null && $product_qty !== null) {
                 $product_added = $this->add_product($product, $product_qty, $registration)
                     ? true // toggle to true
                     : $product_added; // or maintain existing value
+            	}
             }
+            
         }
         if ($product_added) {
             $this->grand_total->recalculate_total_including_taxes();
