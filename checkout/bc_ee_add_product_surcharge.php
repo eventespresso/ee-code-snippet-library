@@ -246,9 +246,7 @@ class AddProductSurcharge
                     error_log('   - $answer->value(): ' . $answer->value());
                 }
                 $product = $this->getProduct($answer->question_ID(), $answer->value());
-                // if (! $product) {
-                //     continue;
-                // }
+
                 // move product to $product_to_add if it's not null
                 $product_to_add = $product_to_add === null ? $product : $product_to_add;
                 // likewise for $product_qty_question_id
