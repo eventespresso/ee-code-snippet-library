@@ -60,8 +60,9 @@ add_filter(
  */
 function de_ee_tweak_event_list_exclude_ticket_expired_events_join(string $SQL, WP_Query $wp_query): string
 {
-    $dates_table = EEM_Datetime::instance()->table();
+    
     if (isEspressoEventsArchive($wp_query)) {
+        $dates_table = EEM_Datetime::instance()->table();
         $dates_table_pk = EEM_Datetime::instance()->primary_key_name();
         $events_table = EEM_Event::instance()->table();
         $events_table_pk = EEM_Event::instance()->primary_key_name();
@@ -76,10 +77,18 @@ function de_ee_tweak_event_list_exclude_ticket_expired_events_join(string $SQL, 
             $SQL .= " INNER JOIN $dates_table";
             $SQL .= " ON ( $events_table.ID = $dates_table.$events_table_pk  ) ";
         }
-        $SQL .= " INNER JOIN $date_tickets_table AS Datetime_Ticket";
-        $SQL .= " ON ( Datetime_Ticket.DTT_ID = $dates_table.$dates_table_pk )";
-        $SQL .= " INNER JOIN $tickets_table AS Ticket";
-        $SQL .= " ON ( Datetime_Ticket.TKT_ID=Ticket.$tickets_table_pk )";
+        if (
+            strpos($SQL, $date_tickets_table) === false
+        ) {
+            $SQL .= " INNER JOIN $date_tickets_table AS Datetime_Ticket";
+            $SQL .= " ON ( Datetime_Ticket.DTT_ID = $dates_table.$dates_table_pk )";
+        }
+        if (
+            strpos($SQL, $tickets_table) === false
+        ) {
+            $SQL .= " INNER JOIN $tickets_table AS Ticket";
+            $SQL .= " ON ( Datetime_Ticket.TKT_ID=Ticket.$tickets_table_pk )";
+        }
     }
     return $SQL;
 }
